@@ -1,4 +1,4 @@
-package com.lexicon.ui;
+package com.lexicon.models;
 
 public class Customer {
 	private String name;

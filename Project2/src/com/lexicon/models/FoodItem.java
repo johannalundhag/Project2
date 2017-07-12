@@ -32,6 +32,22 @@ public class FoodItem {
 	}
 	
 	
+	public void setAssociation(int association) {
+		switch(association) {
+			case 1:
+				this.menuAssociation = "1CLASS";
+				break;
+			case 2:
+				this.menuAssociation = "2CLASS";
+				break;
+			case 3:
+				this.menuAssociation = "GENERIC";
+				break;
+			default:
+				System.out.println("The only valid options are 1-3");
+				break;
+		}
+	}
 	
 	
 	public void setName(String newName) {
@@ -39,6 +55,13 @@ public class FoodItem {
 	}
 	public String getName() {
 		return this.foodName;
+	}
+	
+	public void setDescription(String newDescription) {
+		this.foodDescription = newDescription;
+	}
+	public String getDescription() {
+		return this.foodDescription;
 	}
 
 	@Override

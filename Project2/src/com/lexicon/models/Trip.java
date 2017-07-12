@@ -1,4 +1,4 @@
-package com.lexicon.ui;
+package com.lexicon.models;
 
 import java.util.ArrayList;
 import java.util.Date;
