@@ -7,17 +7,39 @@ public class Trip {
 	private String fromDestination;
 	private String toDestination;
 	private Date departureDate;
-	private ArrayList<Ticket> ticketsList;
+	private ArrayList<Ticket> firstClassTicketsList;
+	private ArrayList<Ticket> secondClassTicketsList;
+	//private ArrayList<FoodItem> menu;
+	//private Vehicle vehical;
 	
 	
 	public Trip(String fromDestination, String toDestination, Date departureDate){
 		this.fromDestination = fromDestination;
 		this.toDestination = toDestination;
 		this.departureDate = departureDate;
-		ticketsList = new ArrayList<Ticket>();
+		firstClassTicketsList = new ArrayList<Ticket>();
+		secondClassTicketsList = new ArrayList<Ticket>();
+		//menu = new ArrayList<FoodItem>();
 	}
 	
+	public ArrayList<Ticket> getTicketList(){
+		ArrayList<Ticket> tmpList = new ArrayList<Ticket>(firstClassTicketsList);
+		tmpList.addAll(secondClassTicketsList);
+		return tmpList;
+	}
 	
+//	public boolean hasSeatsLeftInFirstClass(){
+//		return (vehical.getSeats() > firstClassTicketsList.size());
+//	}
+//	
+//	public boolean hasSeatsLeftInSecondClass(){
+//		return (vehical.getSeats() > secondClassTicketsList.size());
+//	}
 	
+	public String toString(){
+		String s = fromDestination + " - " + toDestination + "\t" + departureDate;
+				
+		return s;
+	}
 	
 }
