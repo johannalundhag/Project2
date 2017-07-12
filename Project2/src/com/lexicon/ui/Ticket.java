@@ -1,19 +1,20 @@
 package com.lexicon.ui;
 
-public class Ticket {
+public abstract class Ticket {
 	
-	private int price;
-	//private int travelClass; // Not in here as it is right now
-	//private Customer customer;
+	protected int price;
+	protected Customer customer;
 
-	
-	public Ticket(int price){
-		this.price = price;
+	public Ticket(Customer customer){
+		this.customer = customer;
 	}
 	
 	public int getPrice(){
 		return price;
 	}
-
+	
+	public Customer getCustomer(){
+		return customer;
+	}
 	
 }
