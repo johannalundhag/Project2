@@ -1,6 +1,6 @@
 package com.lexicon.ui;
 
-public abstract class Plane {
+public class Plane {
 	
 	private int id;
 	private String name;
@@ -20,9 +20,11 @@ public abstract class Plane {
 		return id;
 	}
 	
+	
 	public String getName() {
 		return name;
 	}
+	
 	
 	public int getFirstClass() {
 		return firstClass;
