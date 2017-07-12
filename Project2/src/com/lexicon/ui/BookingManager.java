@@ -8,7 +8,7 @@ public class BookingManager {
 	}
 	
 	public void start() {
-		
+		System.out.println("Application entry point");
 	}
 
 }
