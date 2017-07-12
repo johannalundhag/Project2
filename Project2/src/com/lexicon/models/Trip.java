@@ -1,4 +1,4 @@
-package com.lexicon.ui;
+package com.lexicon.models;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,7 +10,7 @@ public class Trip {
 	private ArrayList<Ticket> firstClassTicketsList;
 	private ArrayList<Ticket> secondClassTicketsList;
 	//private ArrayList<FoodItem> menu;
-	//private Vehicle vehical;
+	private Plane plane;
 	
 	
 	public Trip(String fromDestination, String toDestination, Date departureDate){
@@ -28,13 +28,13 @@ public class Trip {
 		return tmpList;
 	}
 	
-//	public boolean hasSeatsLeftInFirstClass(){
-//		return (vehical.getSeats() > firstClassTicketsList.size());
-//	}
-//	
-//	public boolean hasSeatsLeftInSecondClass(){
-//		return (vehical.getSeats() > secondClassTicketsList.size());
-//	}
+	 public boolean hasSeatsLeftInFirstClass(){
+	 return (plane.getFirstClass() > firstClassTicketsList.size());
+	 }
+	
+	 public boolean hasSeatsLeftInSecondClass(){
+	 return (plane.getSecondClass() > secondClassTicketsList.size());
+	 }
 	
 	public String toString(){
 		String s = fromDestination + " - " + toDestination + "\t" + departureDate;
