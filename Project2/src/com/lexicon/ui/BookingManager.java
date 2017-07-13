@@ -33,30 +33,37 @@ public class BookingManager {
 	public void start() {
 		// Setup before being able to run it.
 		createListOfTrips();
-
-		int price = 0;
-		FlightClass flightClass;
-		Trip tripChoosen;
-
-		printTripList();
-		tripChoosen = tripList.get(getIDFromUser("\nEnter ID of trip you want to book:"));
-
-		flightClass = (getClassFromCustomerForTrip(tripChoosen) == 1 ? FlightClass.firstClass
-				: FlightClass.secondClass);
-
-		price = (flightClass == FlightClass.firstClass ? tripChoosen.getPriceInFirstClass()
-				: tripChoosen.getPriceInSecondClass());
-
-		if (getNumber1or2FromCustomer("Do you want to add food to your journey, Yes(1) or No(2)?:") == 1) {
-			FoodItem food = decideFoodOnThePlane(tripChoosen, flightClass);
-			price += food.getPrice();
-		}
-
-		Ticket ticket = new Ticket(price, customerList.get(0), flightClass, tripChoosen.getFlightInformation());
-		tripChoosen.addTicket(ticket);
-		ticketList.add(ticket);
-
+		doBookings();
 	}
+	
+	private void doBookings(){
+		while(true){
+			int price = 0;
+			FlightClass flightClass;
+			Trip tripChoosen;
+
+			printTripList();
+			tripChoosen = tripList.get(getIDFromUser("\nEnter ID of trip you want to book:"));
+
+			flightClass = (getClassFromCustomerForTrip(tripChoosen) == 1 ? FlightClass.firstClass
+					: FlightClass.secondClass);
+
+			price = (flightClass == FlightClass.firstClass ? tripChoosen.getPriceInFirstClass()
+					: tripChoosen.getPriceInSecondClass());
+
+			if (getNumber1or2FromCustomer("Do you want to add food to your journey, Yes(1) or No(2)?:") == 1) {
+				FoodItem food = decideFoodOnThePlane(tripChoosen, flightClass);
+				price += food.getPrice();
+			}
+
+			System.out.println("The total price will be: " + price);
+			
+			Ticket ticket = new Ticket(price, customerList.get(0), flightClass, tripChoosen.getFlightInformation());
+			tripChoosen.addTicket(ticket);
+			ticketList.add(ticket);
+		}
+	}
+	
 
 	private void createListOfTrips() {
 		Date date = new Date();
