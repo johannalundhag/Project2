@@ -9,26 +9,26 @@ public class FoodItem {
 
 	// This is the default constructor everything is being sent to.
 	// All constructors initialises foodItem to GENERIC
-	public FoodItem(String name, String description, int price) {
+	public FoodItem(String name, String description, int price, FlightClass menuAssociation) {
 		this.foodName = name;
 		this.foodDescription = description;
 		this.price = price;
-		this.menuAssociation = FlightClass.NONE;
+		this.menuAssociation = menuAssociation;
 	}
 
 	// Single name and price constructor
 	public FoodItem(String name, int price) {
-		this(name, "", price);
+		this(name, "", price, FlightClass.NONE);
 	}
 
 	// Single name constructor
 	public FoodItem(String name) {
-		this(name, "", 0);
+		this(name, "", 0, FlightClass.NONE);
 	}
 
 	// EMPTY constructor.
 	public FoodItem() {
-		this("", "", 0);
+		this("", "", 0, FlightClass.NONE);
 	}
 
 	public void setAssociation(int association) {
@@ -74,8 +74,8 @@ public class FoodItem {
 
 	@Override
 	public String toString() {
-		return "FoodItem [foodName=" + foodName + ", foodDescription=" + foodDescription + ", price=" + price
-				+ ", menuAssociation=" + menuAssociation + "]";
+		return "FoodItem [foodName=" + foodName + ", foodDescription=" + foodDescription + ", price=" + price+ "]";
+				//+ ", menuAssociation=" + menuAssociation + "]";
 	}
 
 }

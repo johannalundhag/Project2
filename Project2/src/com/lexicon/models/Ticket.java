@@ -38,5 +38,4 @@ public class Ticket {
 	public void setFoodItem(FoodItem food){
 		this.food = food;
 	}
-	
 }

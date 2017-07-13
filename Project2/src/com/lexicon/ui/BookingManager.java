@@ -3,6 +3,7 @@ package com.lexicon.ui;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,10 +77,16 @@ public class BookingManager {
 		tripList.add(new Trip(fi2, plane2, 20000, 5000));
 		tripList.add(new Trip(fi3, plane1, 20000, 5000));
 
-		FoodItem food1 = new FoodItem("Kött", "Kött", 200);
-		FoodItem food2 = new FoodItem("Fisk", "Fisk", 200);
-		FoodItem food3 = new FoodItem("Vegetariskt", "Vegetariskt", 200);
-		FoodItem food4 = new FoodItem("Lyx", "Lyx", 200);
+		FoodItem food1 = new FoodItem("Kött", "Kött", 200, FlightClass.secondClass);
+		FoodItem food2 = new FoodItem("Fisk", "Fisk", 200, FlightClass.secondClass);
+		FoodItem food3 = new FoodItem("Vegetariskt", "Vegetariskt", 200, FlightClass.NONE);
+		FoodItem food4 = new FoodItem("Lyx", "Lyx", 200, FlightClass.firstClass);
+
+		ArrayList<FoodItem> menu = new ArrayList<FoodItem>(Arrays.asList(food1, food2, food3, food4));
+
+		tripList.get(0).setMenu(menu);
+		tripList.get(1).setMenu(menu);
+		tripList.get(2).setMenu(menu);
 	}
 
 	private void printTripList() {
@@ -91,15 +98,12 @@ public class BookingManager {
 	}
 
 	private FoodItem decideFoodOnThePlane(Trip trip, FlightClass flightClass) {
-		
-		trip.getMenu().stream().filter(f -> f.getAssociation() == FlightClass.NONE || f.getAssociation() == flightClass)
-		.collect(Collectors.toList()).forEach(s -> System.out.println(trip.getMenu().indexOf(s) + "\t" + s));
-			
-		
-		FoodItem food = new FoodItem();
 
-		
-		
+		trip.getMenu().stream().filter(f -> f.getAssociation() == FlightClass.NONE || f.getAssociation() == flightClass)
+				.collect(Collectors.toList())
+				.forEach(s -> System.out.println((trip.getMenu().indexOf(s) + 1) + "\t" + s));
+
+		FoodItem food = trip.getMenu().get(getIDFromUser("\nEnter ID of food you want to eat:"));
 		return food;
 	}
 
