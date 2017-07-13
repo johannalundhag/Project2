@@ -42,27 +42,6 @@ public class BookingManager {
 		Ticket ticket = new Ticket(price, customer, flightClass, tripList.get(index).getFlightInformation());
 	}
 
-	private int getClassFromCustomerForTrip(Trip trip) {
-		int firstOrSecond = getNumber1or2FromCustomer("In what class do you want to travel, first(1) or second(2)?:");
-
-		if (firstOrSecond == 1) {
-
-			if (!trip.hasSeatsLeftInFirstClass())
-				System.out.println();
-		} else {
-			if (!trip.hasSeatsLeftInSecondClass())
-				System.out.println();
-		}
-
-		return firstOrSecond;
-	}
-	
-	private boolean askCustomerToChangeClass(){
-		
-		int firstOrSecond = getNumberFromUser("There are no seats left in prefered class, want to change class Yes(1), No(2)?:");
-		return true;
-	}
-
 	private void createListOfTrips() {
 		Date date = new Date();
 		FlightInformation fi1 = new FlightInformation("ARN", "LHR", date);
@@ -81,15 +60,19 @@ public class BookingManager {
 		System.out.println(String.format("%3s%15s%15s", "ID", "Route", "Date"));
 
 		for (Trip t : tripList)
-			System.out.println(String.format("%3d%30s", (tripList.indexOf(t) + 1), t.getFlightInformation()));
+			if (t.hasSeatsLeftInFirstClass() && t.hasSeatsLeftInSecondClass())
+				System.out.println(String.format("%3d%30s", (tripList.indexOf(t) + 1), t.getFlightInformation()));
 	}
-	
-	private int getNumber1or2FromCustomer(String message){
+
+	/*
+	 * Classes for getting input from user Checks for invalid input
+	 */
+	private int getNumber1or2FromCustomer(String message) {
 		int number = 0;
-		
+
 		while (!(number == 1) && !(number == 2))
-			System.out.println(message);
-		
+			number = getNumberFromUser(message);
+
 		return number;
 	}
 
@@ -112,7 +95,34 @@ public class BookingManager {
 
 		while (number > tripList.size() | number == 0)
 			number = getNumberFromUser("Not a valid ID. Please try again:");
-
 		return number;
+	}
+
+	private int getClassFromCustomerForTrip(Trip trip) {
+		int firstOrSecondClass = getNumber1or2FromCustomer(	"In what class do you want to travel, first(1) or second(2)?:");
+
+		if (firstOrSecondClass == 1) {
+
+			if (!trip.hasSeatsLeftInFirstClass())
+				if (askCustomerToChangeClass())
+					firstOrSecondClass = 2;
+				else
+					System.out.println(); 					// exit program
+		} else {
+			if (!trip.hasSeatsLeftInSecondClass())
+				if (askCustomerToChangeClass())
+					firstOrSecondClass = 1;
+				else
+					System.out.println();					// exit
+		}
+
+		return firstOrSecondClass;
+	}
+
+	private boolean askCustomerToChangeClass() {
+
+		int firstOrSecond = getNumberFromUser(
+				"There are no seats left in prefered class, want to change class Yes(1), No(2)?:");
+		return true;
 	}
 }
