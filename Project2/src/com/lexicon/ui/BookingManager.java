@@ -5,10 +5,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.lexicon.models.Customer;
 import com.lexicon.models.FlightClass;
 import com.lexicon.models.FlightInformation;
+import com.lexicon.models.FoodItem;
 import com.lexicon.models.Plane;
 import com.lexicon.models.Ticket;
 import com.lexicon.models.Trip;
@@ -16,10 +18,14 @@ import com.lexicon.models.Trip;
 public class BookingManager {
 
 	private List<Trip> tripList;
+	private List<Customer> customerList;
+	private List<Ticket> ticketList;
 	private BufferedReader br;
 
 	public BookingManager() {
 		tripList = new ArrayList<>();
+		customerList = new ArrayList<>();
+		ticketList = new ArrayList<>();
 		br = new BufferedReader(new InputStreamReader(System.in));
 	}
 
@@ -27,19 +33,28 @@ public class BookingManager {
 		// Setup before being able to run it.
 		createListOfTrips();
 
-		// Get the journey that the customer wants to take.
+		int price = 0;
+		FlightClass flightClass;
+		Trip tripChoosen;
+
 		printTripList();
-		int index = getIDFromUser("Enter ID of trip you want to book:");
+		tripChoosen = tripList.get(getIDFromUser("\nEnter ID of trip you want to book:"));
 
-		// If the customer wants to fly first or second class.
-
-		FlightClass flightClass = (getClassFromCustomerForTrip(tripList.get(index)) == 1 ? FlightClass.firstClass
+		flightClass = (getClassFromCustomerForTrip(tripChoosen) == 1 ? FlightClass.firstClass
 				: FlightClass.secondClass);
 
-		int price = 0;
-		Customer customer = new Customer("Test");
+		price = (flightClass == FlightClass.firstClass ? tripChoosen.getPriceInFirstClass()
+				: tripChoosen.getPriceInSecondClass());
 
-		Ticket ticket = new Ticket(price, customer, flightClass, tripList.get(index).getFlightInformation());
+		if (getNumber1or2FromCustomer("Do you want to add food to your journey, Yes(1) or No(2)?:") == 1) {
+			FoodItem food = decideFoodOnThePlane(tripChoosen, flightClass);
+			price += food.getPrice();
+		}
+
+		Ticket ticket = new Ticket(price, customerList.get(0), flightClass, tripChoosen.getFlightInformation());
+		tripChoosen.addTicket(ticket);
+		ticketList.add(ticket);
+
 	}
 
 	private void createListOfTrips() {
@@ -51,17 +66,41 @@ public class BookingManager {
 		Plane plane1 = new Plane(1, "747", 5, 5);
 		Plane plane2 = new Plane(1, "747", 10, 5);
 
-		tripList.add(new Trip(fi1, plane1));
-		tripList.add(new Trip(fi2, plane2));
-		tripList.add(new Trip(fi3, plane1));
+		Customer customer1 = new Customer("Nisse");
+		Customer customer2 = new Customer("Staffan");
+
+		customerList.add(customer1);
+		customerList.add(customer2);
+
+		tripList.add(new Trip(fi1, plane1, 20000, 5000));
+		tripList.add(new Trip(fi2, plane2, 20000, 5000));
+		tripList.add(new Trip(fi3, plane1, 20000, 5000));
+
+		FoodItem food1 = new FoodItem("Kött", "Kött", 200);
+		FoodItem food2 = new FoodItem("Fisk", "Fisk", 200);
+		FoodItem food3 = new FoodItem("Vegetariskt", "Vegetariskt", 200);
+		FoodItem food4 = new FoodItem("Lyx", "Lyx", 200);
 	}
 
 	private void printTripList() {
-		System.out.println(String.format("%3s%15s%15s", "ID", "Route", "Date"));
+		System.out.println(String.format("%3s%11s%13s", "ID", "Route", "Date"));
 
 		for (Trip t : tripList)
 			if (t.hasSeatsLeftInFirstClass() && t.hasSeatsLeftInSecondClass())
 				System.out.println(String.format("%3d%30s", (tripList.indexOf(t) + 1), t.getFlightInformation()));
+	}
+
+	private FoodItem decideFoodOnThePlane(Trip trip, FlightClass flightClass) {
+		
+		trip.getMenu().stream().filter(f -> f.getAssociation() == FlightClass.NONE || f.getAssociation() == flightClass)
+		.collect(Collectors.toList()).forEach(s -> System.out.println(trip.getMenu().indexOf(s) + "\t" + s));
+			
+		
+		FoodItem food = new FoodItem();
+
+		
+		
+		return food;
 	}
 
 	/*
@@ -93,13 +132,14 @@ public class BookingManager {
 	private int getIDFromUser(String message) {
 		int number = getNumberFromUser(message);
 
-		while (number > tripList.size() | number == 0)
+		while (number > tripList.size() || number == 0)
 			number = getNumberFromUser("Not a valid ID. Please try again:");
 		return number;
 	}
 
 	private int getClassFromCustomerForTrip(Trip trip) {
-		int firstOrSecondClass = getNumber1or2FromCustomer(	"In what class do you want to travel, first(1) or second(2)?:");
+		int firstOrSecondClass = getNumber1or2FromCustomer(
+				"In what class do you want to travel, first(1) or second(2)?:");
 
 		if (firstOrSecondClass == 1) {
 
@@ -107,20 +147,19 @@ public class BookingManager {
 				if (askCustomerToChangeClass())
 					firstOrSecondClass = 2;
 				else
-					System.out.println(); 					// exit program
+					System.out.println(); // exit program
 		} else {
 			if (!trip.hasSeatsLeftInSecondClass())
 				if (askCustomerToChangeClass())
 					firstOrSecondClass = 1;
 				else
-					System.out.println();					// exit
+					System.out.println(); // exit
 		}
 
 		return firstOrSecondClass;
 	}
 
 	private boolean askCustomerToChangeClass() {
-
 		int answer = getNumberFromUser(
 				"There are no seats left in prefered class, want to change class Yes(1), No(2)?:");
 		return (answer == 1);

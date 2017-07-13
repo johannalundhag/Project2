@@ -6,22 +6,44 @@ import java.util.stream.Collectors;
 public class Trip {
 	private FlightInformation flightInformation;
 	private ArrayList<Ticket> ticketsList;
-	//private ArrayList<FoodItem> menu;
+
+	private int priceInFirstClass;
+	private int priceInSecondClass;
+	private ArrayList<FoodItem> menu;
 	private Plane plane;
 
-	public Trip(FlightInformation flightInfo, Plane plane) {
+	public Trip(FlightInformation flightInfo, Plane plane, int priceInFirstClass, int priceInSecondClass) {
 		this.flightInformation = flightInfo;
 		this.plane = plane;
+		this.priceInFirstClass = priceInFirstClass;
+		this.priceInSecondClass = priceInSecondClass;
+
 		ticketsList = new ArrayList<Ticket>();
-		//menu = new ArrayList<FoodItem>();
+		menu = new ArrayList<FoodItem>();
+	}
+
+	public FlightInformation getFlightInformation() {
+		return flightInformation;
 	}
 	
-	public FlightInformation getFlightInformation(){
-		return flightInformation;
+	public ArrayList<FoodItem> getMenu(){
+		return menu;
 	}
 
 	public Plane getPlane() {
 		return plane;
+	}
+
+	public int getPriceInFirstClass() {
+		return priceInFirstClass;
+	}
+
+	public int getPriceInSecondClass() {
+		return priceInSecondClass;
+	}
+	
+	public void setMenu(ArrayList<FoodItem> menu){
+		this.menu = menu;
 	}
 
 	public void setPlane(Plane plane) {
@@ -30,6 +52,10 @@ public class Trip {
 
 	public ArrayList<Ticket> getTicketList() {
 		return ticketsList;
+	}
+
+	public void addTicket(Ticket newTicket) {
+		ticketsList.add(newTicket);
 	}
 
 	public boolean hasSeatsLeftInFirstClass() {
@@ -43,6 +69,5 @@ public class Trip {
 				.collect(Collectors.toList()).size();
 		return (plane.getSecondClass() > bookedInSecondClass);
 	}
-
 
 }

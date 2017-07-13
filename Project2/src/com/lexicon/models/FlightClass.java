@@ -1,5 +1,5 @@
 package com.lexicon.models;
 
 public enum FlightClass {
-	firstClass, secondClass
+	firstClass, secondClass, NONE
 }
