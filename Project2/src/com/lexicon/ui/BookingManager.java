@@ -121,8 +121,8 @@ public class BookingManager {
 
 	private boolean askCustomerToChangeClass() {
 
-		int firstOrSecond = getNumberFromUser(
+		int answer = getNumberFromUser(
 				"There are no seats left in prefered class, want to change class Yes(1), No(2)?:");
-		return true;
+		return (answer == 1);
 	}
 }
