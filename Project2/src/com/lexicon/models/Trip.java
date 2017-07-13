@@ -1,5 +1,7 @@
 package com.lexicon.models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -11,6 +13,7 @@ public class Trip {
 	private ArrayList<Ticket> ticketsList;
 	private ArrayList<FoodItem> menu;
 	private Plane plane;
+	private DateFormat df;
 
 	public Trip(String fromDestination, String toDestination, Date departureDate, Plane plane) {
 		this.fromDestination = fromDestination;
@@ -19,10 +22,15 @@ public class Trip {
 		this.plane = plane;
 		ticketsList = new ArrayList<Ticket>();
 		menu = new ArrayList<FoodItem>();
+		df = new SimpleDateFormat("dd/MM/yyyy");
 	}
 
 	public Plane getPlane() {
 		return plane;
+	}
+	
+	public String getDepartureDate() {
+		return df.format(departureDate);
 	}
 
 	public void setPlane(Plane plane) {
@@ -35,18 +43,15 @@ public class Trip {
 
 	public boolean hasSeatsLeftInFirstClass() {
 		int bookedInFirstClass = ticketsList.stream().filter(s -> (s.getFlightClass() == FlightClass.firstClass)).collect(Collectors.toList()).size();
-		
 		return (plane.getFirstClass() > bookedInFirstClass);
 	}
 
 	public boolean hasSeatsLeftInSecondClass() {
 		int bookedInSecondClass = ticketsList.stream().filter(s -> (s.getFlightClass() == FlightClass.secondClass)).collect(Collectors.toList()).size();
-		
 		return (plane.getSecondClass() > bookedInSecondClass);
 	}
 
 	public String toString() {
-		return fromDestination + " - " + toDestination + "\t" + departureDate;
+		return (String.format("%15s%15s", fromDestination + " - " + toDestination, getDepartureDate()));
 	}
-
 }
