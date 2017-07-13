@@ -6,12 +6,13 @@ public class Ticket {
 	private Customer customer;
 	private FlightClass flightClass;
 	private FoodItem food;
-	
+	private FlightInformation flightInformation;
 
-	public Ticket(int price, Customer customer, FlightClass flightClass){
+	public Ticket(int price, Customer customer, FlightClass flightClass, FlightInformation flightInformation){
 		this.price = price;
 		this.customer = customer;
 		this.flightClass = flightClass;
+		this.flightInformation = flightInformation;
 	}
 	
 	public int getPrice(){
@@ -24,6 +25,10 @@ public class Ticket {
 	
 	public FlightClass getFlightClass(){
 		return flightClass;
+	}
+	
+	public FlightInformation getFlightInformation(){
+		return flightInformation;
 	}
 	
 	public FoodItem getFoodItem(){
