@@ -11,12 +11,12 @@ public class Ticket {
 	private List<FoodItem> foodList;
 	private FlightInformation flightInformation;
 
-	public Ticket(int price, Customer customer, FlightClass flightClass, FlightInformation flightInformation) {
+	public Ticket(int price, Customer customer, FlightClass flightClass, FlightInformation flightInformation, List<FoodItem> list) {
 		this.price = price;
 		this.customer = customer;
 		this.flightClass = flightClass;
 		this.flightInformation = flightInformation;
-		this.foodList = new ArrayList<>();
+		this.foodList = list;
 	}
 
 	public int getPrice() {
