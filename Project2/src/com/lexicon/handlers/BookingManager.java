@@ -29,9 +29,9 @@ public class BookingManager {
 		customerList = new ArrayList<>();
 		ticketList = new ArrayList<>();
 		menu = new ArrayList<>();
-		
+
 		br = new BufferedReader(new InputStreamReader(System.in));
-		options = new String[] { "Book trip", "List tickets", "Exit" };
+		options = new String[] { "Book trip", "List tickets", "Calculate profit", "Exit" };
 	}
 
 	public void start() {
@@ -50,11 +50,14 @@ public class BookingManager {
 			case 1:
 				doBookings();
 				break;
-			case 2: 
+			case 2:
 				printTicketList();
 				break;
+			case 3:
+				calculateProfit();
+				break;
 
-			case 3: // exit
+			case 4: // exit
 				doAgain = false;
 				break;
 			default:
@@ -65,35 +68,40 @@ public class BookingManager {
 	}
 
 	private void doBookings() {
-		while (true) {
-			int price = 0;
-			FlightClass flightClass;
-			Trip tripChoosen;
+		int price = 0;
+		FlightClass flightClass;
+		Trip tripChoosen;
 
-			printTripList();
-			tripChoosen = tripList.get(getIDFromUser("\nEnter ID of trip you want to book:", tripList));
+		printTripList();
+		tripChoosen = tripList.get(getIDFromUser("\nEnter ID of trip you want to book:", tripList));
 
-			flightClass = (getClassFromUserForTrip(tripChoosen) == 1 ? FlightClass.Business : FlightClass.Economy);
+		flightClass = (getClassFromUserForTrip(tripChoosen) == 1 ? FlightClass.Business : FlightClass.Economy);
 
-			price = (flightClass == FlightClass.Business ? tripChoosen.getPriceInBusiness()
-					: tripChoosen.getPriceInEconomy());
-			
-			List<FoodItem> food = new ArrayList<>();
-			if (getNumber1or2FromUser("Do you want to add food to your journey, Yes(1) or No(2)?:") == 1)
-				food = decideFoodOnThePlane(flightClass);
+		price = (flightClass == FlightClass.Business ? tripChoosen.getPriceInBusiness()
+				: tripChoosen.getPriceInEconomy());
 
-			
-			for(FoodItem next : food) {
-				price += next.getPrice();
-			}
+		List<FoodItem> food = new ArrayList<>();
+		if (getNumber1or2FromUser("Do you want to add food to your journey, Yes(1) or No(2)?:") == 1)
+			food = decideFoodOnThePlane(flightClass);
 
-			System.out.println("The total price will be: " + price);
-
-			Ticket ticket = new Ticket(price, customerList.get(0), flightClass, tripChoosen.getFlightInformation(), food);
-			tripChoosen.addTicket(ticket);
-			ticketList.add(ticket);
-			ticket.printTicket();
+		for (FoodItem next : food) {
+			price += next.getPrice();
 		}
+
+		System.out.println("The total price will be: " + price);
+
+		Ticket ticket = new Ticket(price, customerList.get(0), flightClass, tripChoosen.getFlightInformation(), food);
+		tripChoosen.addTicket(ticket);
+		ticketList.add(ticket);
+		ticket.printTicket();
+	}
+
+	private void calculateProfit() {
+		double profit = 0;
+		for (Ticket t : ticketList)
+			profit += t.getPrice() * 0.3;
+
+		System.out.println("The current profit is: " + profit);
 	}
 
 	private void createListOfTrips() {
@@ -114,12 +122,12 @@ public class BookingManager {
 		tripList.add(new Trip(fi1, plane1, 20000, 5000));
 		tripList.add(new Trip(fi2, plane2, 20000, 5000));
 		tripList.add(new Trip(fi3, plane1, 20000, 5000));
-		
-		menu.add( new FoodItem("K�tt", "K�tt", 200, FlightClass.Economy) );
-		menu.add( new FoodItem("Fisk", "Fisk", 200, FlightClass.Economy) );
-		menu.add( new FoodItem("Vegetariskt", "Vegetariskt", 200, FlightClass.NONE) );
-		menu.add( new FoodItem("Lyx", "Lyx", 200, FlightClass.Business) );
-		menu.add( new FoodItem("Fläsk", "Blomkål", 254, FlightClass.NONE) );
+
+		menu.add(new FoodItem("K�tt", "K�tt", 200, FlightClass.Economy));
+		menu.add(new FoodItem("Fisk", "Fisk", 200, FlightClass.Economy));
+		menu.add(new FoodItem("Vegetariskt", "Vegetariskt", 200, FlightClass.NONE));
+		menu.add(new FoodItem("Lyx", "Lyx", 200, FlightClass.Business));
+		menu.add(new FoodItem("Fläsk", "Blomkål", 254, FlightClass.NONE));
 
 		Ticket ticket = new Ticket(20000, customerList.get(0), FlightClass.Business, fi1, getMenu(FlightClass.Economy));
 		ticketList.add(ticket);
@@ -128,36 +136,38 @@ public class BookingManager {
 		tripList.get(1).setMenu(menu);
 		tripList.get(2).setMenu(menu);
 	}
-	
+
 	private List<FoodItem> getMenu(FlightClass flightClass) {
-		return menu.stream().filter( e -> e.getAssociation() == FlightClass.NONE || e.getAssociation() == flightClass ).collect(Collectors.toList());
+		return menu.stream().filter(e -> e.getAssociation() == FlightClass.NONE || e.getAssociation() == flightClass)
+				.collect(Collectors.toList());
 	}
-	
+
 	private void printMenu(List<FoodItem> list) {
 		int index = 0;
-		for(FoodItem next : list) {
+		for (FoodItem next : list) {
 			System.out.println("[" + index++ + "]" + next);
 		}
 	}
-	
+
 	private List<FoodItem> decideFoodOnThePlane(FlightClass flightClass) {
-		
+
 		int totalCharge = 0;
 		List<FoodItem> tempMenu = getMenu(flightClass);
 		List<FoodItem> selection = new ArrayList<>();
-		
+
 		boolean isOrdering = true;
 		int loopIndex = 0;
-		
-		while(isOrdering) {
-			
+
+		while (isOrdering) {
+
 			// ONLY SHOW IF LOOP RAN MORE THAN ONCE
-			if(loopIndex++ > 0) {
+			if (loopIndex++ > 0) {
 				System.out.println("YOUR CURRENT SELECTION:\n");
-				for(FoodItem item : selection) {
+				for (FoodItem item : selection) {
 					System.out.println("- " + item.getName() + " : " + item.getPrice());
 				}
-				System.out.println("\nThis will be added to your total ticket price: " + totalCharge + ":-\nPick more items if you want, or " + menu.size() + "to finish order");
+				System.out.println("\nThis will be added to your total ticket price: " + totalCharge
+						+ ":-\nPick more items if you want, or " + menu.size() + " to finish order");
 			}
 
 			System.out.println("Pick something from the menu: ");
@@ -165,102 +175,23 @@ public class BookingManager {
 			System.out.println("[" + tempMenu.size() + "] - END ORDER -\n");
 
 			int foodIndex = getNumberFromUser("Pick something from the menu");
-			
-			
+
 			while (foodIndex > tempMenu.size())
 				foodIndex = getNumberFromUser("Not a valid ID. Please try again:");
-			
-			if( foodIndex == tempMenu.size()) {
-				System.out.println("You have finished pre-ordering food. Your new ticket price will be calculated below...");
-				isOrdering = false;	
+
+			if (foodIndex == tempMenu.size()) {
+				System.out.println(
+						"You have finished pre-ordering food. Your new ticket price will be calculated below...");
+				isOrdering = false;
 				return selection;
 			}
-			
+
 			selection.add(tempMenu.get(foodIndex));
 			totalCharge = totalCharge + tempMenu.get(foodIndex).getPrice();
 
-
-				
-				
-//			} catch(IndexOutOfBoundsException e) {
-//				
-//				System.out.println("That is not something we have on the menu.\nMaybe if you ask nice, one of the crew will let you in on the secret menu?\n");
-//				
-//			} catch(Exception e) {
-//
-//				System.out.println(e);
-//			
-//			}
-
 		}
-		
-		
-		
 		return null;
-		
 	}
-	
-//	private FoodItem decideFoodOnThePlane(Trip trip, FlightClass flightClass) {
-//
-//		trip.getMenu().stream().filter(f -> f.getAssociation() == FlightClass.NONE || f.getAssociation() == flightClass)
-//				.collect(Collectors.toList())
-//				.forEach(s -> System.out.println((trip.getMenu().indexOf(s) + 1) + "\t" + s));
-//
-//		FoodItem food = trip.getMenu().get(getIDFromUser("\nEnter ID of food you want to eat:", trip.getMenu()));
-//		return food;
-//	}
-	
-//	private List<FoodItem> addFoodtoTicket(int classInt) {
-//		
-//		List<FoodItem> menu = getMenu(classInt);
-//		List<FoodItem> selection = new ArrayList<>();
-//		
-//		int totalCharge = 0;
-//		boolean isOrdering = true;
-//		System.out.println("Pick something from the menu");
-//		
-//		while(isOrdering) {
-//			
-//			// ONLY SHOW IF LOOP RAN MORE THAN ONCE
-//			if(totalCharge > 0) {
-//				System.out.println("YOUR CURRENT SELECTION:\n");
-//				for(FoodItem item : selection) {
-//					System.out.println("- " + item.getName() + " : " + item.getPrice());
-//				}
-//				System.out.println("\nThis will be added to your total ticket price: " + totalCharge + ":-\nPick more items if you want, or " + menu.size() + "to finish order");
-//			}
-//
-//			printMenu(getMenu(classInt));
-//			System.out.println("[" + menu.size() + "] - END ORDER -\n");
-//
-//			try {
-//				
-//				int foodIndex = scanner.nextInt();
-//				if( foodIndex == menu.size() ) {
-//					System.out.println("You have finished pre-ordering food. Your new ticket price will be calculated below...");
-//					isOrdering = false;	
-//					return totalCharge;
-//				}
-//				
-//				selection.add(menu.get(foodIndex));
-//				totalCharge = totalCharge + menu.get(foodIndex).getPrice();
-//				
-//			} catch(IndexOutOfBoundsException e) {
-//				
-//				System.out.println("That is not something we have on the menu.\nMaybe if you ask nice, one of the crew will let you in on the secret menu?\n");
-//				
-//			} catch(Exception e) {
-//
-//				System.out.println(e);
-//			
-//			}
-//
-//		}
-//		
-//		System.out.println(totalCharge);
-//		return totalCharge;
-//		
-//	}
 
 	/*
 	 * Classes for printing information and lists to the user
@@ -287,7 +218,6 @@ public class BookingManager {
 		for (Ticket t : ticketList)
 			System.out.println(t);
 	}
-
 
 	/*
 	 * Classes for getting input from user Checks for invalid input
@@ -320,7 +250,7 @@ public class BookingManager {
 
 		while (number > list.size() || number == 0)
 			number = getNumberFromUser("Not a valid ID. Please try again:");
-		return number;
+		return (number - 1);
 	}
 
 	private int getClassFromUserForTrip(Trip trip) {

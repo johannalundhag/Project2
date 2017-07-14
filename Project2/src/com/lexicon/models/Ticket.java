@@ -44,11 +44,10 @@ public class Ticket {
 	}
 	
 	public String foodString(){
-		if(foodList == null)
+		if(foodList.isEmpty())
 			return "No";
 		else
 			return "Yes";
-		
 	}
 	
 	public void printTicket(){
