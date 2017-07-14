@@ -1,11 +1,14 @@
 package com.lexicon.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Ticket {
 
 	private int price;
 	private Customer customer;
 	private FlightClass flightClass;
-	private FoodItem food;
+	private List<FoodItem> foodList;
 	private FlightInformation flightInformation;
 
 	public Ticket(int price, Customer customer, FlightClass flightClass, FlightInformation flightInformation) {
@@ -13,6 +16,7 @@ public class Ticket {
 		this.customer = customer;
 		this.flightClass = flightClass;
 		this.flightInformation = flightInformation;
+		this.foodList = new ArrayList<>();
 	}
 
 	public int getPrice() {
@@ -30,21 +34,21 @@ public class Ticket {
 	public FlightInformation getFlightInformation() {
 		return flightInformation;
 	}
-
-	public FoodItem getFoodItem() {
-		return food;
+	
+	public void setFoodList(List<FoodItem> newList) {
+		this.foodList = newList;
+	}
+	
+	public List<FoodItem> getFoodItemList() {
+		return foodList;
 	}
 	
 	public String foodString(){
-		if(food == null)
+		if(foodList == null)
 			return "No";
 		else
 			return "Yes";
 		
-	}
-
-	public void setFoodItem(FoodItem food) {
-		this.food = food;
 	}
 	
 	public void printTicket(){
