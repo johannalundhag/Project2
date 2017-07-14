@@ -34,10 +34,10 @@ public class FoodItem {
 	public void setAssociation(int association) {
 		switch (association) {
 		case 1:
-			this.menuAssociation = FlightClass.firstClass;
+			this.menuAssociation = FlightClass.Business;
 			break;
 		case 2:
-			this.menuAssociation = FlightClass.secondClass;
+			this.menuAssociation = FlightClass.Economy;
 			break;
 		case 3:
 			this.menuAssociation = FlightClass.NONE;
@@ -47,8 +47,8 @@ public class FoodItem {
 			break;
 		}
 	}
-	
-	public FlightClass getAssociation(){
+
+	public FlightClass getAssociation() {
 		return menuAssociation;
 	}
 
@@ -74,8 +74,8 @@ public class FoodItem {
 
 	@Override
 	public String toString() {
-		return "FoodItem [foodName=" + foodName + ", foodDescription=" + foodDescription + ", price=" + price+ "]";
-				//+ ", menuAssociation=" + menuAssociation + "]";
+		return "FoodItem [foodName=" + foodName + ", foodDescription=" + foodDescription + ", price=" + price + "]";
+		// + ", menuAssociation=" + menuAssociation + "]";
 	}
 
 }

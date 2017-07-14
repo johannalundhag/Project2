@@ -1,36 +1,34 @@
 package com.lexicon.models;
 
 public class Plane {
-	
+
 	private int id;
 	private String name;
-	private int firstClass;
-	private int secondClass;
+	private int business;
+	private int economy;
 	// private int noOfSeats = firstClass + secondClass;
 
-	public Plane(int id, String name, int firstClass, int secondClass) {
+	public Plane(int id, String name, int business, int economy) {
 		this.id = id;
 		this.name = name;
-		this.firstClass = firstClass;
-		this.secondClass = secondClass;
+		this.business = business;
+		this.economy = economy;
 	}
-	
-	
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
-	public int getFirstClass() {
-		return firstClass;
+
+	public int getBusiness() {
+		return business;
 	}
-	
-	
-	public int getSecondClass() {
-		return secondClass;
+
+	public int getEconomy() {
+		return economy;
 	}
 
 }

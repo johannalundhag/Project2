@@ -7,16 +7,16 @@ public class Trip {
 	private FlightInformation flightInformation;
 	private ArrayList<Ticket> ticketsList;
 
-	private int priceInFirstClass;
-	private int priceInSecondClass;
+	private int priceInBusiness;
+	private int priceInEconomy;
 	private ArrayList<FoodItem> menu;
 	private Plane plane;
 
 	public Trip(FlightInformation flightInfo, Plane plane, int priceInFirstClass, int priceInSecondClass) {
 		this.flightInformation = flightInfo;
 		this.plane = plane;
-		this.priceInFirstClass = priceInFirstClass;
-		this.priceInSecondClass = priceInSecondClass;
+		this.priceInBusiness = priceInFirstClass;
+		this.priceInEconomy = priceInSecondClass;
 
 		ticketsList = new ArrayList<Ticket>();
 		menu = new ArrayList<FoodItem>();
@@ -25,8 +25,8 @@ public class Trip {
 	public FlightInformation getFlightInformation() {
 		return flightInformation;
 	}
-	
-	public ArrayList<FoodItem> getMenu(){
+
+	public ArrayList<FoodItem> getMenu() {
 		return menu;
 	}
 
@@ -34,15 +34,15 @@ public class Trip {
 		return plane;
 	}
 
-	public int getPriceInFirstClass() {
-		return priceInFirstClass;
+	public int getPriceInBusiness() {
+		return priceInBusiness;
 	}
 
-	public int getPriceInSecondClass() {
-		return priceInSecondClass;
+	public int getPriceInEconomy() {
+		return priceInEconomy;
 	}
-	
-	public void setMenu(ArrayList<FoodItem> menu){
+
+	public void setMenu(ArrayList<FoodItem> menu) {
 		this.menu = menu;
 	}
 
@@ -58,16 +58,16 @@ public class Trip {
 		ticketsList.add(newTicket);
 	}
 
-	public boolean hasSeatsLeftInFirstClass() {
-		int bookedInFirstClass = ticketsList.stream().filter(s -> (s.getFlightClass() == FlightClass.firstClass))
+	public boolean hasSeatsLeftInBusiness() {
+		int bookedInBusiness = ticketsList.stream().filter(s -> (s.getFlightClass() == FlightClass.Business))
 				.collect(Collectors.toList()).size();
-		return (plane.getFirstClass() > bookedInFirstClass);
+		return (plane.getBusiness() > bookedInBusiness);
 	}
 
-	public boolean hasSeatsLeftInSecondClass() {
-		int bookedInSecondClass = ticketsList.stream().filter(s -> (s.getFlightClass() == FlightClass.secondClass))
+	public boolean hasSeatsLeftInEconomy() {
+		int bookedInEconomy = ticketsList.stream().filter(s -> (s.getFlightClass() == FlightClass.Economy))
 				.collect(Collectors.toList()).size();
-		return (plane.getSecondClass() > bookedInSecondClass);
+		return (plane.getEconomy() > bookedInEconomy);
 	}
 
 }

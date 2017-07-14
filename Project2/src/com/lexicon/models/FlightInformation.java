@@ -21,9 +21,9 @@ public class FlightInformation {
 	public String getDepartureDate() {
 		return df.format(departureDate);
 	}
-	
+
 	public String toString() {
-		return (String.format("%15s%15s", fromDestination + " - " + toDestination, getDepartureDate()));
+		return (String.format("%15s", fromDestination + " - " + toDestination));
 	}
 
 }
