@@ -123,11 +123,11 @@ public class BookingManager {
 		tripList.add(new Trip(fi2, plane2, 20000, 5000));
 		tripList.add(new Trip(fi3, plane1, 20000, 5000));
 
-		menu.add(new FoodItem("K�tt", "K�tt", 200, FlightClass.Economy));
+		menu.add(new FoodItem("Koett", "Koett", 200, FlightClass.Economy));
 		menu.add(new FoodItem("Fisk", "Fisk", 200, FlightClass.Economy));
 		menu.add(new FoodItem("Vegetariskt", "Vegetariskt", 200, FlightClass.NONE));
 		menu.add(new FoodItem("Lyx", "Lyx", 200, FlightClass.Business));
-		menu.add(new FoodItem("Fläsk", "Blomkål", 254, FlightClass.NONE));
+		menu.add(new FoodItem("Flaesk", "Blomkaol", 254, FlightClass.NONE));
 
 		Ticket ticket = new Ticket(20000, customerList.get(0), FlightClass.Business, fi1, getMenu(FlightClass.Economy));
 		ticketList.add(ticket);
