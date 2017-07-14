@@ -52,7 +52,7 @@ public class BookingManager {
 				printTicketList();
 				break;
 
-			case 5: // exit
+			case 3: // exit
 				doAgain = false;
 				break;
 			default:
@@ -86,8 +86,7 @@ public class BookingManager {
 			Ticket ticket = new Ticket(price, customerList.get(0), flightClass, tripChoosen.getFlightInformation());
 			tripChoosen.addTicket(ticket);
 			ticketList.add(ticket);
-
-			printTicketInformatio(ticket);
+			ticket.printTicket();
 		}
 	}
 
@@ -147,11 +146,11 @@ public class BookingManager {
 	}
 
 	private void printTripList() {
-		System.out.println(String.format("%3s%11s%13s", "ID", "Route", "Date"));
+		System.out.println(String.format("%3s%11s", "ID", "Route"));
 
 		for (Trip t : tripList)
 			if (t.hasSeatsLeftInBusiness() && t.hasSeatsLeftInEconomy())
-				System.out.println(String.format("%3d%30s", (tripList.indexOf(t) + 1), t.getFlightInformation()));
+				System.out.println(String.format("%3d%11s", (tripList.indexOf(t) + 1), t.getFlightInformation()));
 	}
 
 	private void printTicketList() {
@@ -161,10 +160,6 @@ public class BookingManager {
 			System.out.println(t);
 	}
 
-	private void printTicketInformatio(Ticket ticket) {
-		System.out.println("");
-
-	}
 
 	/*
 	 * Classes for getting input from user Checks for invalid input

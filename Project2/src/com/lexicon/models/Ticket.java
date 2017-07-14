@@ -34,14 +34,27 @@ public class Ticket {
 	public FoodItem getFoodItem() {
 		return food;
 	}
+	
+	public String foodString(){
+		if(food == null)
+			return "No";
+		else
+			return "Yes";
+		
+	}
 
 	public void setFoodItem(FoodItem food) {
 		this.food = food;
 	}
+	
+	public void printTicket(){
+		System.out.println("Name: " + customer.getName());
+		System.out.println("Route: " + flightInformation);
+		System.out.println("Food: " + foodString());
+		System.out.println("Price: " + price);
+	}
 
 	public String toString() {
-
-		String s = String.format("%15s%20s%10s%10d", flightInformation, customer.getName(), flightClass, price);
-		return s;
+		return String.format("%15s%20s%10s%10d", flightInformation, customer.getName(), flightClass, price);
 	}
 }
