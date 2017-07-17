@@ -1,0 +1,12 @@
+// Source code for the Booking Manager and model class diagram
+[BookingManager{bg:greenyellow}]1..n[Customer]
+[BookingManager{bg:greenyellow}]1..n[DemoData]
+[BookingManager]1..n[Trip]
+[BookingManager]1..n[Ticket]
+[Trip]1..1[FlighInformation]
+[Trip]1..1[Plane]
+[Trip]1..1[Ticket]
+[Trip]1..n[FoodItem]
+[Ticket]1..n[Customer]
+[Ticket]1..n[FoodItem]
+[Ticket]1..1[FlighInformation]

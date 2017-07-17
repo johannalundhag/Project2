@@ -1,0 +1,8 @@
+Source code for the class diagram related to Report Manager
+[ReportManager{bg:greenyellow}]1..1[DemoData{bg:greenyellow}]
+[ReportManager{bg:greenyellow}]1..n[Ticket]
+[ReportManager{bg:greenyellow}]1..n[[FlighInformation]
+
+[[Ticket]1..n[Customer]
+[Ticket]1..n[FoodItem]
+[Ticket]1..1[FlighInformation]

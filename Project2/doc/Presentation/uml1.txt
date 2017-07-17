@@ -1,0 +1,10 @@
+// Source code for the top-level class diagram
+[UI{bg:lightskyblue}]1..1[ReportManager{bg:greenyellow}]
+[ReportManager{bg:greenyellow}]1..1[DemoData]
+[UI]1..1[DemoData{bg:greenyellow}]
+[UI]1..1[BookingManager{bg:greenyellow}]
+
+[BookingManager{bg:greenyellow}]1..n[Customer]
+[BookingManager{bg:greenyellow}]1..n[DemoData]
+[BookingManager]1..n[Trip]
+[BookingManager]1..n[Ticket]
