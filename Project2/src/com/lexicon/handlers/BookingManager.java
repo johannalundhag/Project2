@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -143,8 +142,14 @@ public class BookingManager {
 		menu.add(new FoodItem("Lyx", "Lyx", 200, FlightClass.Business));
 		menu.add(new FoodItem("Flaesk", "Blomkaol", 254, FlightClass.NONE));
 
-		Ticket ticket = new Ticket(20000, customerList.get(0), FlightClass.Business, fi1, getMenu(FlightClass.Economy));
-		ticketList.add(ticket);
+		Ticket ticket1 = new Ticket(20200, customerList.get(0), FlightClass.Business, fi1, getMenu(FlightClass.Business));
+		Ticket ticket2 = new Ticket(6000, customerList.get(1), FlightClass.Economy, fi2, getMenu(FlightClass.Economy));
+		Ticket ticket3 = new Ticket(21000, customerList.get(0), FlightClass.Business, fi2, getMenu(FlightClass.Business));
+		Ticket ticket4 = new Ticket(5000, customerList.get(1), FlightClass.Economy, fi2, getMenu(FlightClass.Economy));
+		ticketList.add(ticket1);
+		ticketList.add(ticket2);
+		ticketList.add(ticket3);
+		ticketList.add(ticket4);
 
 		tripList.get(0).setMenu(menu);
 		tripList.get(1).setMenu(menu);
