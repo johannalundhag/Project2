@@ -17,7 +17,9 @@ import com.lexicon.models.Ticket;
 import com.lexicon.models.Trip;
 
 public class BookingManager {
-
+	
+	private ArrayList<Ticket> demoList;
+	private ReportManager report;
 	private ArrayList<Trip> tripList;
 	private ArrayList<Customer> customerList;
 	private ArrayList<Ticket> ticketList;
@@ -26,13 +28,15 @@ public class BookingManager {
 	private String[] options;
 
 	public BookingManager() {
+		demoList = new DemoData().getDemoTickets();
+		report = new ReportManager();
 		tripList = new ArrayList<>();
 		customerList = new ArrayList<>();
 		ticketList = new ArrayList<>();
 		menu = new ArrayList<>();
 
 		br = new BufferedReader(new InputStreamReader(System.in));
-		options = new String[] { "Book trip", "List tickets", "Calculate profit", "Exit" };
+		options = new String[] { "Book trip", "List tickets", "Calculate profit (total)", "Calculate profit (date-date)", "Exit" };
 	}
 
 	public void start() {
@@ -57,10 +61,16 @@ public class BookingManager {
 			case 3:
 				calculateProfit();
 				break;
+				
+			case 4:
+				report.printReport(demoList);
+				break;
 
-			case 4: // exit
+			case 5: // exit
 				doAgain = false;
 				break;
+				
+				
 			default:
 				printOptions();
 				break;
