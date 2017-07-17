@@ -28,7 +28,10 @@ public class BookingManager {
 	private String[] options;
 
 	public BookingManager() {
-		demoList = new DemoData().getDemoTickets();
+		DemoData demoData = new DemoData();
+		demoData.setDemoTickets();
+		demoList = demoData.getDemoTickets();
+		
 		report = new ReportManager();
 		tripList = new ArrayList<>();
 		customerList = new ArrayList<>();
@@ -63,7 +66,7 @@ public class BookingManager {
 				break;
 				
 			case 4:
-				report.printReport(demoList);
+				report.printReport(ticketList);
 				break;
 
 			case 5: // exit
@@ -116,7 +119,7 @@ public class BookingManager {
 	}
 
 	private void createListOfTrips() {
-		LocalDate date = LocalDate.now();
+		LocalDate date = LocalDate.now().minusDays(1);
 		FlightInformation fi1 = new FlightInformation("ARN", "LHR", date);
 		FlightInformation fi2 = new FlightInformation("ARN", "LAX", date);
 		FlightInformation fi3 = new FlightInformation("LHR", "LAX", date);
