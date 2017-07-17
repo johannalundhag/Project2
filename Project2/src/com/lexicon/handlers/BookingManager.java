@@ -2,6 +2,7 @@ package com.lexicon.handlers;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -105,7 +106,7 @@ public class BookingManager {
 	}
 
 	private void createListOfTrips() {
-		Date date = new Date();
+		LocalDate date = LocalDate.now();
 		FlightInformation fi1 = new FlightInformation("ARN", "LHR", date);
 		FlightInformation fi2 = new FlightInformation("ARN", "LAX", date);
 		FlightInformation fi3 = new FlightInformation("LHR", "LAX", date);
